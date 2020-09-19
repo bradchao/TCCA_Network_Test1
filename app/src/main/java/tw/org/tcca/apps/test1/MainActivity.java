@@ -1,8 +1,11 @@
 package tw.org.tcca.apps.test1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -109,13 +112,29 @@ public class MainActivity extends AppCompatActivity {
                         int len = packet.getLength();
                         InetAddress urip = packet.getAddress();
                         String temp = new String(data, 0, len);
-                        Log.v("bradlog", urip.getHostAddress() + ":" + temp);
+
+                        Message message = new Message();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mesg", urip.getHostAddress() + ":" + temp);
+                        message.setData(bundle);
+                        handere.sendMessage(message);
+
                     } catch (Exception e) {
                         Log.v("bradlog", e.toString());
                     }
                 }
             }
         }.start();
+    }
+
+    private UIHandere handere = new UIHandere();
+    private class UIHandere extends Handler {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            String message = msg.getData().getString("mesg");
+            log.append(message + "\n");
+        }
     }
 
 }

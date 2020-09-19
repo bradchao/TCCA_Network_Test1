@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         log = findViewById(R.id.log);
 
         getMyIPV2();
+        receiveUDP();
     }
 
     private void getMyIP(){
@@ -89,6 +90,30 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+            }
+        }.start();
+    }
+
+    private void receiveUDP(){
+        new Thread(){
+            @Override
+            public void run() {
+                while (true) {
+                    byte[] buf = new byte[1024];
+                    try {
+                        DatagramSocket socket = new DatagramSocket(8888);
+                        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+                        socket.receive(packet);
+                        socket.close();
+                        byte[] data = packet.getData();
+                        int len = packet.getLength();
+                        InetAddress urip = packet.getAddress();
+                        String temp = new String(data, 0, len);
+                        Log.v("bradlog", urip.getHostAddress() + ":" + temp);
+                    } catch (Exception e) {
+                        Log.v("bradlog", e.toString());
+                    }
+                }
             }
         }.start();
     }

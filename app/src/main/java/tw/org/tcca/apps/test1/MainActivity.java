@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -59,4 +60,6 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
+    public void sendUDP(View view) {
+    }
 }

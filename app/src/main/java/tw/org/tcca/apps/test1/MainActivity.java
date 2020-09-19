@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     DatagramSocket socket = new DatagramSocket();
                     DatagramPacket packet = new DatagramPacket(buf, buf.length,
-                            InetAddress.getByName("10.0.100.156"), 8888);
+                            InetAddress.getByName("10.0.100.255"), 8888);
                     socket.send(packet);
                     socket.close();
                     Log.v("bradlog", "Send OK");
